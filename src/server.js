@@ -1,8 +1,11 @@
 const express = require("express");
+const path = require("path");
+
 const app = express();
-app.get("/", (req,res) => {
-    res.send("Task Manager API is running");
-});
-app.listen(3000,() => {
-    console.log("Server is running on Port 3000");
-});
+const publicDir = path.join(__dirname, "..", "public");
+
+app.use(express.static(publicDir));
+app.get("/", (_req, res) => res.sendFile(path.join(publicDir, "index.html")));
+
+const port = process.env.PORT || 3000;
+app.listen(port, () => console.log(`Daily planner is ready at http://localhost:${port}`));
